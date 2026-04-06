@@ -7,12 +7,16 @@ name = "sql-query-optimizer"
 version = "1.0.0"
 description = "SQL Query Optimizer Env for OpenEnv"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = [
     "fastapi>=0.111.0",
     "uvicorn>=0.30.0",
     "pydantic>=2.7.0",
     "openai>=1.30.0",
     "sqlglot>=20.0.0",
-    "requests"
+    "requests",
+    "openenv-core>=0.2.0"
 ]
+
+[project.scripts]
+server = "server.app:start"

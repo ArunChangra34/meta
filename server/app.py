@@ -65,3 +65,7 @@ def run_baseline():
         return {"output": result.stdout}
     except subprocess.CalledProcessError as e:
         raise HTTPException(status_code=500, detail=f"Baseline failed: {e.stderr}")
+
+def start():
+    import uvicorn
+    uvicorn.run("server.app:app", host="0.0.0.0", port=7860)
