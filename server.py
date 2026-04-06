@@ -12,13 +12,18 @@ env = QueryOptimizationEnv()
 def read_root():
     return {"status": "ok", "message": "SQL Query Optimizer Environment API is running!"}
 
+from typing import Optional
+
 class ResetRequest(BaseModel):
-    task_id: int
+    task_id: int = 1
 
 @app.post("/reset", response_model=Observation)
-def reset_env(request: ResetRequest):
+def reset_env(request: Optional[dict] = None):
     try:
-        obs = env.reset(request.task_id)
+        task_id = 1
+        if request and "task_id" in request:
+            task_id = request["task_id"]
+        obs = env.reset(task_id)
         return obs
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
