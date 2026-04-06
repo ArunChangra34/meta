@@ -1,0 +1,14 @@
+name: sql-query-optimizer
+version: "1.0.0"
+description: "AI agent reviews and rewrites SQL queries for correctness and performance."
+tags: [openenv, sql, code-review, data-engineering]
+tasks:
+  - id: 1
+    name: fix-broken-join
+    difficulty: easy
+  - id: 2
+    name: eliminate-n-plus-one
+    difficulty: medium
+  - id: 3
+    name: full-optimization
+    difficulty: hard
