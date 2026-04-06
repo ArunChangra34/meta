@@ -61,7 +61,7 @@ def run_baseline():
     if not os.environ.get("OPENAI_API_KEY"):
         raise HTTPException(status_code=400, detail="OPENAI_API_KEY is not set.")
     try:
-        result = subprocess.run(["python", "baseline.py"], capture_output=True, text=True, check=True)
+        result = subprocess.run(["python", "inference.py"], capture_output=True, text=True, check=True)
         return {"output": result.stdout}
     except subprocess.CalledProcessError as e:
         raise HTTPException(status_code=500, detail=f"Baseline failed: {e.stderr}")
