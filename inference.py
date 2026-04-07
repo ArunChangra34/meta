@@ -1,5 +1,6 @@
 import os
-import requests
+import urllib.request
+import urllib.error
 from openai import OpenAI
 import json
 
@@ -20,12 +21,21 @@ def run_task(task_id):
     # Output structured logs
     print("START")
     
-    res = requests.post(f"{ENV_URL}/reset", json={"task_id": task_id})
-    if res.status_code != 200:
+    try:
+        req = urllib.request.Request(
+            f"{ENV_URL}/reset", 
+            data=json.dumps({"task_id": task_id}).encode('utf-8'),
+            headers={'Content-Type': 'application/json'}
+        )
+        with urllib.request.urlopen(req, timeout=10) as response:
+            if response.getcode() != 200:
+                print("END")
+                return
+            obs = json.loads(response.read().decode('utf-8'))
+    except Exception as e:
         print("END")
         return
         
-    obs = res.json()
     prompt = f"""You are a SQL expert. Rewrite this query to improve it.
 Query: {obs['query']}
 Schema: {obs['schema_context']}
@@ -48,7 +58,17 @@ Return ONLY a JSON response in the following format:
 
     print(f"STEP: {json.dumps(action_data)}")
         
-    res = requests.post(f"{ENV_URL}/step", json=action_data)
+    try:
+        req_step = urllib.request.Request(
+            f"{ENV_URL}/step", 
+            data=json.dumps(action_data).encode('utf-8'),
+            headers={'Content-Type': 'application/json'}
+        )
+        with urllib.request.urlopen(req_step, timeout=10) as response:
+            pass
+    except Exception:
+        pass
+
     print("END")
 
 if __name__ == "__main__":
